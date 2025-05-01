@@ -1,0 +1,17 @@
+{
+  "name": "mmm-livespeech",
+  "version": "1.0.0",
+  "main": "MMM-LiveSpeech.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google-cloud/speech": "^7.0.1",
+    "node-record-lpcm16": "^1.0.1",
+    "socket.io": "^4.8.1"
+  }
+}
