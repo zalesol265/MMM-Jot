@@ -5,6 +5,10 @@ Module.register("MMM-Jot", {
     clearDelay: 30000  // clear the screen after transcription ends
   },
 
+  getStyles() {
+    return ["MMM-Jot.css"];
+  },
+
   start() {
     this.transcriptLines = [];
     this.partialTranscript = "";
@@ -39,17 +43,6 @@ Module.register("MMM-Jot", {
     const wrapper = document.createElement("div");
     wrapper.id = "jot-wrapper";
     wrapper.className = "Jot";
-    wrapper.style.maxHeight = "300px";
-    wrapper.style.overflowY = "hidden";
-    wrapper.style.display = "flex";
-    wrapper.style.flexDirection = "column";
-    wrapper.style.justifyContent = "flex-end";
-    wrapper.style.padding = "10px";
-    wrapper.style.fontSize = "1.2em";
-    wrapper.style.lineHeight = "1.4em";
-    wrapper.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    wrapper.style.borderRadius = "10px";
-    wrapper.style.color = "white";
 
     this.transcriptLines.forEach((line) => {
       const div = document.createElement("div");

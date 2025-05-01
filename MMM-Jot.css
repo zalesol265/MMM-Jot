@@ -1,0 +1,13 @@
+#jot-wrapper {
+    max-height: 300px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    font-size: 1.2em;
+    line-height: 1.4em;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: white;
+  }
