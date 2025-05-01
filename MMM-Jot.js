@@ -2,12 +2,15 @@
 Module.register("MMM-Jot", {
   defaults: {
     maxLines: 15, // max number of lines shown at once
+    clearDelay: 30000  // clear the screen after transcription ends
   },
 
   start() {
     this.transcriptLines = [];
     this.partialTranscript = "";
-    this.sendSocketNotification("START_LISTENING");
+    this.sendSocketNotification("START_LISTENING", {
+      clearDelay: this.config.clearDelay
+    });
   },
 
   socketNotificationReceived(notification, payload) {
@@ -23,11 +26,18 @@ Module.register("MMM-Jot", {
         this.partialTranscript = ""; // clear partial once final is added
       }
       this.updateDom();
+    } else if (notification === "TRANSCRIPTION_ENDED") {
+      this.partialTranscript = "Transcription ended. Text will clear in 30 seconds.";
+      this.updateDom();
+    } else if (notification === "CLEAR_SCREEN") {
+      this.clearScreen();
     }
+    
   },
 
   getDom() {
     const wrapper = document.createElement("div");
+    wrapper.id = "jot-wrapper";
     wrapper.className = "Jot";
     wrapper.style.maxHeight = "300px";
     wrapper.style.overflowY = "hidden";
@@ -54,5 +64,13 @@ Module.register("MMM-Jot", {
     }
 
     return wrapper;
+  },
+  clearScreen() {
+    this.transcriptLines = [];
+    this.partialTranscript = "";
+    const wrapper = document.getElementById("jot-wrapper");
+    if (wrapper) {
+      wrapper.innerHTML = "";
+    }
   }
 });
