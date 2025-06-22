@@ -12,9 +12,19 @@ Module.register("MMM-Jot", {
   start() {
     this.transcriptLines = [];
     this.partialTranscript = "";
-    this.sendSocketNotification("START_LISTENING", {
-      clearDelay: this.config.clearDelay
-    });
+    // this.sendSocketNotification("START_LISTENING", {
+    //   clearDelay: this.config.clearDelay
+    // });
+  },
+
+  notificationReceived(notification, payload) {
+    if(notification == "START_LISTENING") {
+      this.sendSocketNotification("START_LISTENING", {
+        clearDelay: this.config.clearDelay
+      });
+    } else if(notification == "STOP_LISTENING") {
+      this.sendSocketNotification("STOP_LISTENING");
+    }
   },
 
   socketNotificationReceived(notification, payload) {
@@ -30,10 +40,33 @@ Module.register("MMM-Jot", {
         this.partialTranscript = ""; // clear partial once final is added
       }
       this.updateDom();
+    // } else if (notification === "TRANSCRIPTION_ENDED") {
+    //   this.partialTranscript = "Transcription ended. Text will clear in 30 seconds.";
+    //   this.updateDom();
+    // }
     } else if (notification === "TRANSCRIPTION_ENDED") {
-      this.partialTranscript = "Transcription ended. Text will clear in 30 seconds.";
+      let secondsLeft = this.config.clearDelay / 1000;
+      this.partialTranscript = `Transcription ended. Text will clear in ${secondsLeft} seconds.`;
       this.updateDom();
-    } else if (notification === "CLEAR_SCREEN") {
+    
+      // Clear any existing countdown interval
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+      }
+    
+      this.countdownInterval = setInterval(() => {
+        secondsLeft -= 1;
+        if (secondsLeft > 0) {
+          this.partialTranscript = `Transcription ended. Text will clear in ${secondsLeft} seconds.`;
+          this.updateDom();
+        } else {
+          clearInterval(this.countdownInterval);
+          this.countdownInterval = null;
+        }
+      }, 1000);
+    }
+    
+    else if (notification === "CLEAR_SCREEN") {
       this.clearScreen();
     }
     
