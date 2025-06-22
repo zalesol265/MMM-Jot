@@ -65,26 +65,34 @@ module.exports = NodeHelper.create({
 
         this.sendSocketNotification("TRANSCRIPT", payload);
 
-        process.stdout.write(
-          transcript ? `Transcription: ${transcript}\n` : ''
-        );
       })
       .on('end', () => {
         this.handleStreamEnded()
       });
 
-    this.recording = recorder
-      .record({
-        sampleRateHertz: 16000,
-        threshold: 0,
-        verbose: false,
-        recordProgram: 'rec',
-        silence: '10.0',
-      })
-      .stream()
-      .on('error', console.error);
+    // this.recording = recorder
+    //   .record({
+    //     sampleRateHertz: 16000,
+    //     threshold: 0,
+    //     verbose: false,
+    //     recordProgram: 'rec',
+    //     silence: '10.0',
+    //   })
+    //   .stream()
+    //   .on('error', console.error);
 
-    this.recording.pipe(this.recognizeStream);
+    // this.recording.pipe(this.recognizeStream);
+    this.recording = recorder.record({
+      sampleRateHertz: 16000,
+      threshold: 0,
+      verbose: false,
+      recordProgram: 'rec',
+      silence: '10.0',
+    });
+    
+    const recordingStream = this.recording.stream().on('error', console.error);
+    
+    recordingStream.pipe(this.recognizeStream);
     console.log('Listening, press Ctrl+C to stop.');
   },
 
