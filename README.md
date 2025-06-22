@@ -2,19 +2,20 @@
 
 **MMM-Jot** is a voice-to-text transcription module for MagicMirror². It listens for live speech input, transcribes it in real time using **Google Cloud Speech-to-Text**, and displays the output on your mirror.
 
-Ideal for jotting down reminders, fun quotes, or commands via voice.
 
----
 
 ## 📌 Features
 
 * 🎙️ Live speech transcription using [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text/docs/transcribe-streaming-audio)
 * 🔄 Live partial updates + finalized text
 * ⏳ Auto-clears transcript after configurable delay (with live countdown)
-* 📃 Keeps a running list of the last N lines
+* 📃 Transcribed conversations saved into txt files for 24 hours before deletion
 * 🔔 Start/stop listening via notifications (e.g. from `MMM-Remote-Control` or other modules)
 
----
+
+<img src="img/screenshot3.jpeg" alt="Start Transcription" width="400" />
+<img src="img/screenshot4.jpeg" alt="Live Transcription" width="400" />
+
 
 ## 🧰 Installation
 
@@ -57,7 +58,7 @@ Make sure your code uses this file for Google authentication.
 
 Google offers **60 minutes of free speech recognition per month**. After that, it charges based on usage (usually \~\$0.006 per 15 seconds of audio for standard models). [View pricing](https://cloud.google.com/speech-to-text/pricing)
 
----
+
 
 ## ⚙️ Configuration
 
