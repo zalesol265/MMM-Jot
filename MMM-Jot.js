@@ -12,9 +12,6 @@ Module.register("MMM-Jot", {
   start() {
     this.transcriptLines = [];
     this.partialTranscript = "";
-    // this.sendSocketNotification("START_LISTENING", {
-    //   clearDelay: this.config.clearDelay
-    // });
   },
 
   notificationReceived(notification, payload) {
@@ -40,10 +37,6 @@ Module.register("MMM-Jot", {
         this.partialTranscript = ""; // clear partial once final is added
       }
       this.updateDom();
-    // } else if (notification === "TRANSCRIPTION_ENDED") {
-    //   this.partialTranscript = "Transcription ended. Text will clear in 30 seconds.";
-    //   this.updateDom();
-    // }
     } else if (notification === "TRANSCRIPTION_ENDED") {
       let secondsLeft = this.config.clearDelay / 1000;
       this.partialTranscript = `Transcription ended. Text will clear in ${secondsLeft} seconds.`;
